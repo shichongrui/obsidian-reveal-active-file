@@ -35,8 +35,10 @@ export default class MyPlugin extends Plugin {
 			}
 		})
 
-		this.app.workspace.on('click', () => {
+		this.app.workspace.on('click', async () => {
+			await new Promise(resolve => setTimeout(resolve, 500));
 			const is_file_explorer_open_now = this.is_file_explorer_open();
+			console.log(`is_file_explorer_open_previously: ${this.is_file_explorer_open_previously}, is_file_explorer_open_now: ${is_file_explorer_open_now}`);
 			if(is_file_explorer_open_now && ! this.is_file_explorer_open_previously)
 			{
 				this.reveal();

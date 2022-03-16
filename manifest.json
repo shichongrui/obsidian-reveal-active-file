@@ -1,7 +1,7 @@
 {
 	"id": "obsidian-reveal-active-file",
 	"name": "Automatically reveal active file",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"minAppVersion": "0.12.15",
 	"description": "This plugin will reveal the active file in the navigation when a file is opened.",
 	"author": "Matt Sessions",

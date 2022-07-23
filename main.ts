@@ -20,9 +20,12 @@ export default class MyPlugin extends Plugin {
 		return is_open;
 
 	}
-	private reveal()
+	private async reveal()
 	{
 		(this.app as any).commands.executeCommandById('file-explorer:reveal-active-file');
+		await new Promise(resolve => setTimeout(resolve, 100));
+		(this.app as any).commands.executeCommandById('editor:focus');
+
 	}
 
 	onload() {

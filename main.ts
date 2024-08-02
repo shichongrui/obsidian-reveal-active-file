@@ -1,7 +1,7 @@
 import { Plugin, Command, Workspace } from 'obsidian';
 declare module "obsidian" {
 	interface WorkspaceLeaf {
-		width: Number;
+		containerEl: Element;
 	}
 }
 export default class MyPlugin extends Plugin {
@@ -12,7 +12,7 @@ export default class MyPlugin extends Plugin {
 		const workspace = this.app.workspace;
 		let is_open = false;
 		workspace.iterateAllLeaves((leaf) => {
-			if(leaf.getViewState().type == "file-explorer" && leaf.width > 0)
+			if(leaf.getViewState().type == "file-explorer" && window.getComputedStyle(leaf.containerEl, null).display !== "none")
 			{
 				is_open = true;
 			}
@@ -35,8 +35,7 @@ export default class MyPlugin extends Plugin {
 			}
 		})
 
-		this.app.workspace.on('active-leaf-change', async (leaf: WorkspaceLeaf) => {
-			await new Promise(resolve => setTimeout(resolve, 200));
+		this.app.workspace.on('active-leaf-change', async () => {
 			const is_file_explorer_open_now = this.is_file_explorer_open();
 			console.log(`is_file_explorer_open_previously: ${this.is_file_explorer_open_previously}, is_file_explorer_open_now: ${is_file_explorer_open_now}`);
 			if(is_file_explorer_open_now && ! this.is_file_explorer_open_previously)

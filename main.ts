@@ -32,7 +32,7 @@ export default class MyPlugin extends Plugin {
 	private is_file(leaf: WorkspaceLeaf) 
 	{
 		// This code does not verify whether it represents all files.
-		return (leaf.view as FileView).allowNoFile === false;
+		return (leaf.view as FileView).allowNoFile === true;
 	}
 
 	private is_file_explorer(leaf: WorkspaceLeaf) 

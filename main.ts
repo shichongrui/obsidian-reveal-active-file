@@ -1,4 +1,4 @@
-import { FileView, Plugin, WorkspaceLeaf } from 'obsidian';
+import { FileView, Plugin, WorkspaceLeaf, WorkspaceSidedock } from 'obsidian';
 declare module "obsidian" {
 	interface WorkspaceLeaf {
 		containerEl: Element;
@@ -16,11 +16,23 @@ export default class MyPlugin extends Plugin {
 		workspace.iterateAllLeaves((leaf) => {
 			if(leaf.getViewState().type === "file-explorer" && window.getComputedStyle(leaf.containerEl, null).display !== "none")
 			{
-				is_open = true;
+				// A collapsed sidebar does not set display:none on the leaf itself,
+				// so also check whether the sidebar that contains the leaf is collapsed.
+				if(!this.is_in_collapsed_sidebar(leaf))
+				{
+					is_open = true;
+				}
 			}
 		});
 		return is_open;
 
+	}
+
+	private is_in_collapsed_sidebar(leaf: WorkspaceLeaf)
+	{
+		const workspace = this.app.workspace;
+		const root = leaf.getRoot();
+		return (root === workspace.leftSplit || root === workspace.rightSplit) && (root as WorkspaceSidedock).collapsed;
 	}
 	private async reveal()
 	{
